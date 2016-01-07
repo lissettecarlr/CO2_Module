@@ -19,6 +19,7 @@ USART WIFI(3,9600,false);   //USART3
 #define CONTINUOUS 3
 #define ONCE 2
 #define STANDBY 1
+#define ALIVE 0xFF
 
 
 int main()
@@ -43,9 +44,13 @@ int main()
 			{
 				state_now=CONTINUOUS;
 			}
-			else
+			else if(COMANDS==1)
 			{
 				state_now=STANDBY; //不更新
+			}
+			else if(COMANDS==0xff)
+			{
+			  state_now=ALIVE; //确认存在
 			}
 		}
 		//wifi
@@ -82,11 +87,16 @@ int main()
 				co2.Updata();
 				WIFI.SendData((packaging.C02_ModuleToUser(co2.DATA_H,co2.DATA_L,0xaa)),20);
 				com.SendData((packaging.C02_ModuleToUser(co2.DATA_H,co2.DATA_L,0xaa)),20);
-				tskmgr.DelayMs(1000);
-			}
+				tskmgr.DelayMs(2000);
+			}break;
 			case STANDBY:{
 				
-			}
+			}break;
+			case ALIVE:{  //确认存在
+				WIFI.SendData((packaging.C02_ModuleToUser(0xff,0XFF,0xFF)),20);
+				com.SendData((packaging.C02_ModuleToUser(0XFF,0XFF,0xFF)),20); 
+				state_now=STANDBY;
+			}break;
 			
 		}   
 					
