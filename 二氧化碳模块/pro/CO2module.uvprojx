@@ -448,6 +448,16 @@
               <FileType>5</FileType>
               <FilePath>..\driver\MHZ14.h</FilePath>
             </File>
+            <File>
+              <FileName>Buzzer.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\driver\Buzzer.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Buzzer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\driver\Buzzer.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
