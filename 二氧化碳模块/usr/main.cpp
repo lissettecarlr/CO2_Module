@@ -13,7 +13,7 @@
 USART com(1,115200,false);   //USART1
 MHZ14 co2;
 USART WIFI(3,9600,false);   //USART3
-//ADC voltage(8);
+ADC voltage(9);
 
 
 #define CONTINUOUS 3
@@ -27,7 +27,7 @@ int main()
 //	static float newTime = 0, oldTime = 0, interval = 0;
 	u8 comand[8];//用于保存命令
 	static u8 COMANDS;
-	u8 state_now=STANDBY; //用于选择模式
+	u8 state_now=CONTINUOUS; //用于选择模式
 	
 	while(1)
 	{
@@ -78,15 +78,16 @@ int main()
 		{
 			case ONCE:{
 			co2.Updata();
-			WIFI.SendData((packaging.C02_ModuleToUser(co2.DATA_H,co2.DATA_L,0xaa)),20);
-			com.SendData((packaging.C02_ModuleToUser(co2.DATA_H,co2.DATA_L,0xaa)),20);
+//			WIFI.SendData((packaging.C02_ModuleToUser(co2.DATA_H,co2.DATA_L,voltage[9])),20);
+			com.SendData((packaging.C02_ModuleToUser(co2.DATA_H,co2.DATA_L,voltage[9]*100)),20);
 			state_now=STANDBY;
 			}break;
 			
 			case CONTINUOUS:{
 				co2.Updata();
-				WIFI.SendData((packaging.C02_ModuleToUser(co2.DATA_H,co2.DATA_L,0xaa)),20);
-				com.SendData((packaging.C02_ModuleToUser(co2.DATA_H,co2.DATA_L,0xaa)),20);
+//				WIFI.SendData((packaging.C02_ModuleToUser(co2.DATA_H,co2.DATA_L,voltage[9])),20);
+				com.SendData((packaging.C02_ModuleToUser(co2.DATA_H,co2.DATA_L,voltage[9]*100)),20);
+//				com<<voltage[9]<<"\n";
 				tskmgr.DelayMs(2000);
 			}break;
 			case STANDBY:{

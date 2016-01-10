@@ -32,6 +32,8 @@ u8 *Transmission::C02_ModuleToModule(u8 data1,u8 data2,u8 adc)
 	//电压值
 	ModuleToUser[9]=adc;
 	
+	ModuleToUser[19]=0;
+	
 	for(int i=0;i<19;i++)
 	{
 		ModuleToUser[19]+=ModuleToUser[i];
@@ -57,6 +59,7 @@ u8 *Transmission::C02_ModuleToUser(u8 data1,u8 data2,u8 adc)
 	//电压值
 	ModuleToUser[9]=adc;
 	
+	ModuleToUser[19]=0;
 	for(int i=0;i<19;i++)
 	{
 		ModuleToUser[19]+=ModuleToUser[i];

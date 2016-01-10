@@ -171,50 +171,18 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>35</LineNumber>
+          <LineNumber>60</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134223264</Address>
+          <Address>134222502</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>F:\study\RFID璇捐\浜屾哀鍖栫⒊妯″潡\usr\main.cpp</Filename>
+          <Filename>F:\study\RFID璇捐\module_co2\浜屾哀鍖栫⒊妯″潡\usr\transmission.cpp</Filename>
           <ExecCommand></ExecCommand>
-          <Expression></Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>81</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134220858</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>F:\study\RFID璇捐\浜屾哀鍖栫⒊妯″潡\usr\transmission.cpp</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\\../usr/transmission.cpp\81</Expression>
-        </Bp>
-        <Bp>
-          <Number>2</Number>
-          <Type>0</Type>
-          <LineNumber>57</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134223384</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>F:\study\RFID璇捐\浜屾哀鍖栫⒊妯″潡\usr\main.cpp</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\CO2module\../usr/main.cpp\57</Expression>
+          <Expression>\\CO2module\../usr/transmission.cpp\60</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
