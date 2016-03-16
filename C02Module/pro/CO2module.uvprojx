@@ -14,7 +14,7 @@
         <TargetCommonOption>
           <Device>STM32F103C8</Device>
           <Vendor>STMicroelectronics</Vendor>
-          <PackID>Keil.STM32F1xx_DFP.1.1.0</PackID>
+          <PackID>Keil.STM32F1xx_DFP.2.0.0</PackID>
           <PackURL>http://www.keil.com/pack/</PackURL>
           <Cpu>IROM(0x08000000,0x10000) IRAM(0x20000000,0x5000) CPUTYPE("Cortex-M3") CLOCK(12000000) ELITTLE</Cpu>
           <FlashUtilSpec></FlashUtilSpec>
@@ -409,16 +409,6 @@
           <GroupName>Lib</GroupName>
           <Files>
             <File>
-              <FileName>Timer.cpp</FileName>
-              <FileType>8</FileType>
-              <FilePath>..\driver\Timer.cpp</FilePath>
-            </File>
-            <File>
-              <FileName>Timer.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\driver\Timer.h</FilePath>
-            </File>
-            <File>
               <FileName>USART.cpp</FileName>
               <FileType>8</FileType>
               <FilePath>..\driver\USART.cpp</FilePath>
@@ -449,14 +439,44 @@
               <FilePath>..\driver\MHZ14.h</FilePath>
             </File>
             <File>
-              <FileName>Buzzer.cpp</FileName>
+              <FileName>ESP8266.cpp</FileName>
               <FileType>8</FileType>
-              <FilePath>..\driver\Buzzer.cpp</FilePath>
+              <FilePath>..\driver\ESP8266.cpp</FilePath>
             </File>
             <File>
-              <FileName>Buzzer.h</FileName>
+              <FileName>ESP8266.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\driver\Buzzer.h</FilePath>
+              <FilePath>..\driver\ESP8266.h</FilePath>
+            </File>
+            <File>
+              <FileName>GPIO.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\driver\GPIO.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>GPIO.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\driver\GPIO.h</FilePath>
+            </File>
+            <File>
+              <FileName>Hint.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\driver\Hint.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Hint.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\driver\Hint.h</FilePath>
+            </File>
+            <File>
+              <FileName>Memory.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\driver\Memory.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>Memory.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\driver\Memory.h</FilePath>
             </File>
           </Files>
         </Group>
@@ -477,6 +497,16 @@
               <FileName>transmission.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\usr\transmission.h</FilePath>
+            </File>
+            <File>
+              <FileName>WIFI_Memory.cpp</FileName>
+              <FileType>8</FileType>
+              <FilePath>..\usr\WIFI_Memory.cpp</FilePath>
+            </File>
+            <File>
+              <FileName>WIFI_Memory.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\usr\WIFI_Memory.h</FilePath>
             </File>
           </Files>
         </Group>

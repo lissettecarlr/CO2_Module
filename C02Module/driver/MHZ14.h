@@ -11,7 +11,7 @@ class MHZ14 {
 		bool SumCheck(u8 data[9]);
 	public:
 		u8 DATA_H;
-	    u8 DATA_L;
+	  u8 DATA_L;
 		MHZ14();
 		bool Updata();//更新数据，返回是否更新成功 true  false
 		u16 GetValue(); //得到一个浓度数据
