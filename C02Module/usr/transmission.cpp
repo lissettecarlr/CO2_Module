@@ -11,6 +11,58 @@ Transmission::Transmission()
 	}
 }
 
+//发送给服务器的帧格式封装
+u8 *Transmission::ToServerPack(u8 DataType,u8 DataH,u8 DataL,u8 adc)
+{
+	//头
+	ModuleToUser[0]=0xff;
+	ModuleToUser[1]=0xaa;
+	//设备号
+	ModuleToUser[2]=ModuleNuber>>24;
+	ModuleToUser[3]=(ModuleNuber>>16) &0xff;
+	ModuleToUser[4]=(ModuleNuber>>8) 	&0xff;
+	ModuleToUser[5]=(ModuleNuber)			&0xff;
+	//数据类型
+	ModuleToUser[6]=DataType;
+	//数据
+	ModuleToUser[7]=DataH;
+	ModuleToUser[8]=DataL;
+	//电压值
+	ModuleToUser[9]=adc;
+	
+	for(int i=0;i<19;i++)
+	{
+		ModuleToUser[19]+=ModuleToUser[i];
+	}
+	return ModuleToUser;
+	
+}
+//发送给客服端的帧格式封装
+u8 *Transmission::ToClientPack(u8 DataType,u8 DataH,u8 DataL,u8 adc)
+{
+	//包头
+	ModuleToModule[0]=0xff;
+	ModuleToModule[1]=0xcc;
+	//设备号
+	ModuleToModule[2]= ModuleNuber>>24;
+	ModuleToModule[3]=(ModuleNuber>>16) &0xff;
+	ModuleToModule[4]=(ModuleNuber>>8) 	&0xff;
+	ModuleToModule[5]=(ModuleNuber)			&0xff;
+	//类型
+	ModuleToModule[6]=DataType;
+	//数据
+	ModuleToModule[7]=DataH;
+	ModuleToModule[8]=DataL;
+	//电量
+	ModuleToModule[9]=adc;
+	for(int i=0;i<19;i++)
+	{
+		ModuleToModule[19]+=ModuleToModule[i];
+	}
+	return ModuleToModule;
+}
+
+
 //湿度数据封装
 u8 *Transmission::humidityModuleToModule(u8 data1,u8 data2,u8 adc)
 {
@@ -19,10 +71,10 @@ u8 *Transmission::humidityModuleToModule(u8 data1,u8 data2,u8 adc)
 	ModuleToModule[1]=0xcc;
 	
 	//设备号
-	ModuleToModule[2]=0x00;
-	ModuleToModule[3]=0x00;
-	ModuleToModule[4]=0x00;
-	ModuleToModule[5]=0x01;
+	ModuleToModule[2]=ModuleNuber>>24;
+	ModuleToModule[3]=(ModuleNuber>>16) &0xff;
+	ModuleToModule[4]=(ModuleNuber>>8) 	&0xff;
+	ModuleToModule[5]=(ModuleNuber)			&0xff;
 	//类型
 	ModuleToModule[6]=HumidityNumber;
 	//数据
@@ -46,10 +98,10 @@ u8 *Transmission::temperatureModuleToModule(u8 data1,u8 data2,u8 adc)
 	ModuleToModule[1]=0xcc;
 	
 	//设备号
-	ModuleToModule[2]=0x00;
-	ModuleToModule[3]=0x00;
-	ModuleToModule[4]=0x00;
-	ModuleToModule[5]=0x01;
+	ModuleToModule[2]=ModuleNuber>>24;
+	ModuleToModule[3]=(ModuleNuber>>16) &0xff;
+	ModuleToModule[4]=(ModuleNuber>>8) 	&0xff;
+	ModuleToModule[5]=(ModuleNuber)			&0xff;
 	//类型
 	ModuleToModule[6]=TemperatureNumber;
 	//数据
@@ -74,10 +126,10 @@ u8 *Transmission::humidityModuleToUser(u8 data1,u8 data2,u8 adc)
 	ModuleToUser[0]=0xff;
 	ModuleToUser[1]=0xaa;
 	//设备号
-	ModuleToUser[2]=0x00;
-	ModuleToUser[3]=0x00;
-	ModuleToUser[4]=0x00;
-	ModuleToUser[5]=0x01;
+	ModuleToUser[2]=ModuleNuber>>24;
+	ModuleToUser[3]=(ModuleNuber>>16) &0xff;
+	ModuleToUser[4]=(ModuleNuber>>8) 	&0xff;
+	ModuleToUser[5]=(ModuleNuber)			&0xff;
 	//数据类型
 	ModuleToUser[6]=HumidityNumber;
 	//数据
@@ -99,12 +151,12 @@ u8 *Transmission::temperetureModuleToUser(u8 data1,u8 data2,u8 adc)
 	ModuleToUser[0]=0xff;
 	ModuleToUser[1]=0xaa;
 	//设备号
-	ModuleToUser[2]=0x00;
-	ModuleToUser[3]=0x00;
-	ModuleToUser[4]=0x00;
-	ModuleToUser[5]=0x02;
+	ModuleToUser[2]=ModuleNuber>>24;
+	ModuleToUser[3]=(ModuleNuber>>16) &0xff;
+	ModuleToUser[4]=(ModuleNuber>>8) 	&0xff;
+	ModuleToUser[5]=(ModuleNuber)			&0xff;
 	//数据类型
-	ModuleToUser[6]=3;
+	ModuleToUser[6]=TemperatureNumber;
 	//数据
 	ModuleToUser[7]=data1;
 	ModuleToUser[8]=data2;
@@ -124,12 +176,12 @@ u8 *Transmission::CO2_ModuleToUser(u8 data1,u8 data2,u8 adc)
 	ModuleToUser[0]=0xff;
 	ModuleToUser[1]=0xaa;
 	//设备号
-	ModuleToUser[2]=0x00;
-	ModuleToUser[3]=0x00;
-	ModuleToUser[4]=0x00;
-	ModuleToUser[5]=0x02;
+	ModuleToUser[2]=ModuleNuber>>24;
+	ModuleToUser[3]=(ModuleNuber>>16) &0xff;
+	ModuleToUser[4]=(ModuleNuber>>8) 	&0xff;
+	ModuleToUser[5]=(ModuleNuber)			&0xff;
 	//数据类型
-	ModuleToUser[6]=3;
+	ModuleToUser[6]=CO2Number;
 	//数据
 	ModuleToUser[7]=data1;
 	ModuleToUser[8]=data2;
@@ -150,12 +202,12 @@ u8 *Transmission::CO2_ModuleToModule(u8 data1,u8 data2,u8 adc)
 	ModuleToModule[1]=0xcc;
 	
 	//设备号
-	ModuleToModule[2]=0x00;
-	ModuleToModule[3]=0x00;
-	ModuleToModule[4]=0x00;
-	ModuleToModule[5]=0x02;
+	ModuleToModule[2]=ModuleNuber>>24;
+	ModuleToModule[3]=(ModuleNuber>>16) &0xff;
+	ModuleToModule[4]=(ModuleNuber>>8) 	&0xff;
+	ModuleToModule[5]=(ModuleNuber)			&0xff;
 	//类型
-	ModuleToModule[6]=3;
+	ModuleToModule[6]=CO2Number;
 	//数据
 	ModuleToModule[7]=data1;
 	ModuleToModule[8]=data2;
@@ -169,6 +221,9 @@ u8 *Transmission::CO2_ModuleToModule(u8 data1,u8 data2,u8 adc)
 	return ModuleToModule;
 }
 
+
+
+
 //得到上位机命令
 u8 Transmission::CommandParsing(u8 command[8])
 {
@@ -176,7 +231,7 @@ u8 Transmission::CommandParsing(u8 command[8])
 	{
 		u32 equipment;
 		equipment=(u32)(command[2]<<24)+(u32)(command[3]<<16)+(u32)(command[4]<<8)+(u32)command[5];
-		if(equipment==2) //看是否是该设备
+		if(equipment==1) //看是否是该设备
 		{
 			u32 sum=0;
 			for(u8 i=0;i<7;i++)
@@ -223,16 +278,62 @@ u8 Transmission::GetStateOrder(USART &ListeningCOM)
 }
 
 //发送数据给上位机
-void Transmission::SendOnce(u8 data1,u8 data2,u8 data3,u8 data4,u8 Voltage,USART &usart, esp8266 &esp)
+void Transmission::SendServer(u8 data1,u8 data2,u8 data3,u8 data4,u8 Voltage,esp8266 &esp)
 {
-				esp.Send(20,humidityModuleToUser(data1,data2,Voltage));
-				tskmgr.DelayMs(1000);//如果不延时，下一条将发送不出去
-				tskmgr.DelayMs(1000);
-				esp.Send(20,temperetureModuleToUser(data3,data4,Voltage));
-						
-				usart.SendData((humidityModuleToUser(data1,data2,Voltage)),20);			
-				usart.SendData((temperetureModuleToUser(data3,data4,Voltage)),20);
+				esp.Send(20,ToServerPack(HumidityNumber,data1,data2,Voltage));
+				tskmgr.DelayS(2);//如果不延时，下一条将发送不出去
+				esp.Send(20,ToServerPack(TemperatureNumber,data3,data4,Voltage));
 }
 
+void Transmission::SendClient(u8 data1,u8 data2,u8 data3,u8 data4,u8 Voltage,esp8266 &esp)
+{
+				esp.Send(0,20,ToClientPack(HumidityNumber,data1,data2,Voltage));
+				tskmgr.DelayS(2);//如果不延时，下一条将发送不出去
+				esp.Send(0,20,ToClientPack(TemperatureNumber,data3,data4,Voltage));
+}
 
+void Transmission::SendAlive(esp8266 &esp,u8 DataType,bool mode)
+{
+	if(mode)
+	{
+		esp.Send(20,ToServerPack(DataType,0xff,0xff,0xff));
+	}
+	else
+	{
+		esp.Send(0,20,ToClientPack(DataType,0xff,0xff,0xff));
+	}
+}
 
+bool Transmission::GetWifiNameAndPassword(char *name,char *password,USART &ListeningCOM)
+{
+	u8 ch=0;
+	u8 i =0;
+	ListeningCOM.GetReceivedData(&ch,1);
+		if(ch == 0xFF)
+		{
+			tskmgr.DelayMs(100);
+			ListeningCOM.GetReceivedData(&ch,1);
+			if(ch == 0x03)
+			{
+				ListeningCOM.GetReceivedData(&ch,1);
+				while(ch!=0xff){
+					*(name+i)=ch;
+					i++;
+					ListeningCOM.GetReceivedData(&ch,1);
+				}
+					*(name+i)='\0';
+					ListeningCOM.GetReceivedData(&ch,1);
+					i=0;
+				while(ch!=0xff){
+					*(password+i)=ch;
+					i++;
+					ListeningCOM.GetReceivedData(&ch,1);
+				}
+					*(password+i)='\0';	
+				return 1;
+			}
+			else return 0;
+		}
+		else
+			return 0;
+}

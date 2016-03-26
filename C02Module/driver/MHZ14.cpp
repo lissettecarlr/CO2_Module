@@ -1,10 +1,7 @@
 #include "MHZ14.h"
 
-//这里使用串口2作为驱动
-USART CO2(2,9200,false); 
-
-
-MHZ14::MHZ14()
+MHZ14::MHZ14(USART &com)
+:COM(com)
 {
 	//一帧数据读取指令
 	Command_getvalue[0]=0xff;
@@ -45,18 +42,18 @@ u16 MHZ14::GetValue()
 bool MHZ14::Updata()
 {	
 	//向模块发送获取数据
-	   CO2.SendData(Command_getvalue,9);
+	   COM.SendData(Command_getvalue,9);
 	
 	//判断是否有数据返回
-	  if(CO2.ReceiveBufferSize()<9)
+	  if(COM.ReceiveBufferSize()<9)
 	  {
-		  CO2.ClearReceiveBuffer(); //清空接收缓存
+		  COM.ClearReceiveBuffer(); //清空接收缓存
 		  return false;
 	  }
 	  else
 	  {
-		  CO2.GetReceivedData(rev_buffer,9); //取出一帧数据
-		   CO2.ClearReceiveBuffer(); //清空接收缓存
+		  COM.GetReceivedData(rev_buffer,9); //取出一帧数据
+		   COM.ClearReceiveBuffer(); //清空接收缓存
 		  
 		  if(SumCheck(rev_buffer)==false)  //校验和
 			  return false;

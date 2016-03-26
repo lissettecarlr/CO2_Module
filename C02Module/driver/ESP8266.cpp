@@ -192,11 +192,15 @@ bool esp8266::joinAP( char* ssid,  char* pwd)
 		rx_empty();
 		mUsart<<"AT+CWJAP=";
 		mUsart<<"\""<<ssid<<"\",\""<<pwd<<"\"\r\n";
-		data_temp = recvString("OK", "ERROR");
-		if(strstr(data_temp,"OK"))
-			return true;
-		else
+	for(int i=0;i<20;i++) //需要20秒的等待后判断是否连接上
+		{
+			tskmgr.DelayMs(1000);
+		}
+		data_temp = recvString("OK", "FAIL");
+		if(strstr(data_temp,"FAIL"))
 			return false;
+		else
+			return true;
 }
 
 bool esp8266::setSoftAPParam( char* ssid,  char* pwd, uint8_t chl , uint8_t ecn)
@@ -244,6 +248,7 @@ bool esp8266::ConnectServer(char*  type, char*  addr, int port)
 		mUsart<<"AT+CIPSTART=";
 		mUsart<<"\""<<type<<"\",\""<<addr<<"\","<<port<<"\r\n";
 		data_temp = recvString("OK", "ERROR");
+	  tskmgr.DelayMs(1000);
 		if(strstr(data_temp,"OK"))
 			return true;
 		else
@@ -270,6 +275,18 @@ void esp8266::Send(int Lenth,u8 data[])
 	mUsart.SendData(data,Lenth);
 }
 
+void esp8266::Send(char ID,char * str)
+{
+	rx_empty();
+	u8 number=0;
+	while( (*str)!= '\0')
+		{number++;str++;}	
+	mUsart<<"AT+CIPSEND=";
+	mUsart<<ID<<","<<number<<"\r\n";	
+	tskmgr.DelayMs(100);	
+	mUsart<<(str-number);
+}
+
 void esp8266::Send(char * str)
 {
 	rx_empty();
@@ -282,3 +299,78 @@ void esp8266::Send(char * str)
 	tskmgr.DelayMs(100);
 	mUsart<<(str-number);
 }
+
+bool esp8266::SetTimeout(int time)
+{
+	char * data_temp;
+	rx_empty();
+	mUsart<<"AT+CIPSTO="<<time<<"\r\n";
+	data_temp = recvString("OK", "ERROR");
+		if(strstr(data_temp,"OK"))
+			return true;
+		else
+			return false;
+}
+
+bool esp8266::OpenServer(int port)
+{
+	char * data_temp;
+	rx_empty();
+	mUsart<<"AT+CIPSERVER=1,"<<port<<"\r\n";
+	data_temp = recvString("OK", "ERROR");
+		if(strstr(data_temp,"OK"))
+			return true;
+		else
+			return false;
+}
+
+bool esp8266::SetIpAddr(char* str) //设置IP地址
+{
+	char * data_temp;
+	rx_empty();
+	mUsart<<"AT+CIPSTO="<<str;
+	data_temp = recvString("OK", "ERROR");
+		if(strstr(data_temp,"OK"))
+			return true;
+		else
+			return false;
+}
+
+/*******************************************************************************************/
+u8 esp8266::ConnectNetwork_client(char *WifiName,char* WifiPassword,char *IP,int COM) //预计耗时26秒
+{
+	//网络连接
+	if(!kick())
+		return 0;
+	tskmgr.DelayMs(1000);
+	setEcho(1);//回显
+	tskmgr.DelayMs(1000);
+	setOprToStation();//设置为模式1
+	tskmgr.DelayMs(500);
+	restart();
+	tskmgr.DelayS(3);
+	if(!joinAP(WifiName,WifiPassword))
+		return 0;//WIFI连接 如果连接失败，返回0
+	if( !ConnectServer("TCP",IP,COM) ) return false;  //服务器连接
+	return 1;
+}
+
+u8 esp8266::ConnectNetwork_server(int port,int time) //预计耗时7秒
+{
+	if(!kick())
+		return 0;
+	tskmgr.DelayMs(1000);
+	setOprToSoftAP();
+	tskmgr.DelayMs(500);
+	restart();
+	tskmgr.DelayS(3);
+	enableOrDisableMUX(1); //开启多路访问
+	tskmgr.DelayMs(1000);
+	OpenServer(port);
+	tskmgr.DelayMs(1000);
+	SetTimeout(time);
+	tskmgr.DelayMs(1000);
+	return 1;
+}
+
+

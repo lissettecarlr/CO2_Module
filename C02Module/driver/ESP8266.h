@@ -28,7 +28,17 @@ class esp8266
     bool ConnectServerID(int mux_id, char*  type, char*  addr, int port);//连接到服务器(由于多路访问，需要选择ID号)
 		void Send(char ID,int Lenth,u8 data[]); //发送命令，前一个为ID号，后一个为发送字节长度
 		void Send(int Lenth,u8 data[]); //发送命令，发送字节长度
+	  void Send(char ID,char * str); 
 		void Send(char * str); //发送命令，发送字节长度
+	   
+	  bool SetTimeout(int time); //设置超时时间 0表示永不超时
+   	bool OpenServer(int port); //开启服务模式
+	
+		bool SetIpAddr(char* str); //设置IP地址
+   		
+	//指令集
+	u8 ConnectNetwork_client(char *WifiName,char* WifiPassword,char *IP,int COM); //连接服务器
+	u8 ConnectNetwork_server(int port,int time);//作为服务器
 	
 	private:
 		USART &mUsart;
